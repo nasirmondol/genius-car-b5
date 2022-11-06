@@ -1,19 +1,69 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import auth from '../../../firebase.init';
+import Loading from '../../Shared/Loading/Loading';
+import SocialLogin from './SocialLogin/SocialLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-    const emailRef = useRef('')
-    const passwordRef = useRef('');
+    const navigate = useNavigate()
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
 
-    const handleSubmit = event =>{
-        event.preventDefault()
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-        console.log(email, password)
+    const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const location = useLocation();
+    const from = location.state?.from?.pathname || ('/')
+
+    if (loading) {
+        return <Loading></Loading>
     }
 
-   
+    if (user) {
+        navigate(from, { replace: true })
+    }
+
+    const handleResetPassword = async () => {
+        if (email) {
+            await sendPasswordResetEmail(email)
+            toast('email sent')
+        }
+        
+        else{
+            toast('please enter your email address')
+        }
+    }
+
+    let errorElement;
+
+    if (error) {
+        errorElement = <p className="text-danger">Error: {error?.message}</p>
+    }
+
+    const handleEmail = event => {
+        setEmail(event.target.value)
+    }
+
+    const handlePassword = event => {
+        setPassword(event.target.value)
+    }
+
+
+    const handleSubmit = event => {
+        event.preventDefault()
+        signInWithEmailAndPassword(email, password)
+    }
+
+
 
     return (
         <div className='w-50 mx-auto'>
@@ -21,23 +71,24 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
+                    <Form.Control onBlur={handleEmail} type="email" placeholder="Enter email" required />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
+                    <Form.Control onBlur={handlePassword} type="password" placeholder="Password" required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
+                <p>{errorElement}</p>
+                <Button className='w-50 mx-auto d-block mb-2' variant="primary" type="submit">
+                    Login
                 </Button>
-                <p>New to genius car? <Link className='text-danger text-decoration-none' to='/register'>Please register</Link></p>
+                <p>New to genius car? <Link className='text-primary text-decoration-none' to='/register'>Please register</Link></p>
+                <p>Forgot password? <Link onClick={handleResetPassword} className='text-primary text-decoration-none'>Reset Password</Link></p>
+                <SocialLogin></SocialLogin>
+                <ToastContainer />
             </Form>
         </div>
     );

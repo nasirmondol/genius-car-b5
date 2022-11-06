@@ -11,19 +11,25 @@ import Experts from './Pages/Home/Experts/Experts';
 import NotFound from './Pages/NotFound/NotFound';
 import Login from './Pages/Login/Login/Login';
 import Register from './Pages/Login/Register/Register';
+import RequireAuth from './Pages/RequireAuth/RequireAuth';
 function App() {
   return (
     <div>
       <Header />
       <Routes>
         <Route path='/' element={<Home />}></Route>
-        <Route path='/about' element={<About />}></Route>
+        <Route path='/home' element={<Home />}></Route>
+        <Route path='/about' element={
+          <RequireAuth>
+            <About />
+          </RequireAuth>
+        }></Route>
         <Route path='/services' element={<Services />}></Route>
         <Route path='/login' element={<Login />}></Route>
-        <Route path='/register' element={<Register/>}></Route>
-        <Route path='/expert' element={<Experts/>}></Route>
+        <Route path='/register' element={<Register />}></Route>
+        <Route path='/expert' element={<Experts />}></Route>
         <Route path='/serviceDetails/:serviceId' element={<ServiceDetails />}></Route>
-        <Route path='*' element={<NotFound/>}></Route>
+        <Route path='*' element={<NotFound />}></Route>
       </Routes>
       <Footer />
     </div>
