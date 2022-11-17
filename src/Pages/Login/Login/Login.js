@@ -7,6 +7,7 @@ import Loading from '../../Shared/Loading/Loading';
 import SocialLogin from './SocialLogin/SocialLogin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageTitle from '../../Shared/PageTitle/PageTitle';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -68,6 +69,7 @@ const Login = () => {
     return (
         <div className='w-50 mx-auto'>
             <h2 className='text-primary mt-2 text-center'>Login page</h2>
+            <PageTitle title="Login"></PageTitle>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>

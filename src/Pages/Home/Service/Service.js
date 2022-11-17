@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PageTitle from '../../Shared/PageTitle/PageTitle';
 import './Service.css'
 
 const Service = ({ service }) => {
+    <PageTitle title="Service"></PageTitle>
     const navigate = useNavigate()
     const { id, name, img, description, price } = service;
 
-    const navigateToDetails= id =>{
+    const navigateToDetails = id => {
         navigate(`/serviceDetails/${id}`);
     }
     return (
