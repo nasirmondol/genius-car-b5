@@ -6,13 +6,12 @@ const ServiceDetails = () => {
     const [serviceDetails, setServiceDetails] = useState({});
 
     useEffect(() => {
-        fetch('/services.json')
-            .then(res => res.json())
-            .then(data => {
-                const servicesData = data.find(servicesData => servicesData.id == serviceId)
-                setServiceDetails(servicesData)
-            })
-    }, [])
+       const url = `http://localhost:5000/service/${serviceId}`;
+       fetch(url)
+       .then(res => res.json())
+       .then(data => setServiceDetails(data))
+           
+    }, [serviceId])
     return (
         <div className='m-4 p-5'>
             <img src={serviceDetails.img} alt="" />
@@ -22,3 +21,11 @@ const ServiceDetails = () => {
 };
 
 export default ServiceDetails;
+
+// fetch(url, {
+//     .then(res => res.json())
+//     .then(data => {
+//         const servicesData = data.find(servicesData => servicesData.id == serviceId)
+//         setServiceDetails(servicesData)
+//     })
+// })
