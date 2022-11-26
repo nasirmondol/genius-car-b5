@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageTitle from '../../Shared/PageTitle/PageTitle';
 import axios from 'axios';
+import useToken from '../../../hooks/useToken';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -18,6 +19,7 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    const [token] = useToken(user)
 
     const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
     const [email, setEmail] = useState('')
@@ -30,8 +32,8 @@ const Login = () => {
         return <Loading></Loading>
     }
 
-    if (user) {
-        // navigate(from, { replace: true })
+    if (token) {
+        navigate(from, { replace: true })
     }
 
     const handleResetPassword = async () => {
@@ -63,9 +65,6 @@ const Login = () => {
     const handleSubmit = async event => {
         event.preventDefault()
         await signInWithEmailAndPassword(email, password)
-        const {data} = await axios.post('https://infinite-depths-07817.herokuapp.com/login', {email})
-        localStorage.setItem('accessToken', data.accessToken)
-        navigate(from, { replace: true })
     }
 
 

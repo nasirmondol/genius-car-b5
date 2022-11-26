@@ -6,6 +6,7 @@ import auth from '../../../firebase.init';
 import SocialLogin from '../Login/SocialLogin/SocialLogin';
 import Loading from '../../Shared/Loading/Loading';
 import PageTitle from '../../Shared/PageTitle/PageTitle';
+import useToken from '../../../hooks/useToken';
 
 const Register = () => {
     const navigate = useNavigate()
@@ -15,6 +16,7 @@ const Register = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+    const [token] = useToken(user)
 
     const [email, setEmail] = useState('')
     const[password, setPassword] = useState('')
@@ -27,8 +29,8 @@ const Register = () => {
         return <Loading></Loading>
     }
 
-    if(user){
-        console.log('user', user)
+    if(token){
+        navigate('/home')
     }
 
 
@@ -48,8 +50,7 @@ const Register = () => {
 
         await createUserWithEmailAndPassword(email, password)
         await updateProfile({ displayName: name });
-        console.log('updated user')
-        navigate('/home');
+        console.log('updated user');
     }
     return (
         <div className='w-50 mx-auto'>

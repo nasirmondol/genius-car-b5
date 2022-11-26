@@ -20,7 +20,6 @@ const AddUser = () => {
                     console.log(result)
                     alert('Successfully added service')
                 })
-            data.target.reset()
         }
     };
     return (

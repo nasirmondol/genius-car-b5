@@ -26,8 +26,8 @@ const CheckOut = () => {
             const {data} = response
             if(data.insertedId){
                 toast('Your order is booked!!')
-                event.target.reset()
             }
+            event.target.reset()
         })
     }
 

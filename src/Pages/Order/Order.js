@@ -13,8 +13,8 @@ const Order = () => {
     const navigate = useNavigate();
     useEffect(() => {
         const getOrders = async () => {
-            const email = user.email;
-            const url = `https://infinite-depths-07817.herokuapp.com/order?email=${email}`
+            const email = user?.email;
+           const url = `https://infinite-depths-07817.herokuapp.com/order?email=${email}`
             try {
                 const { data } = await axiosPrivate.get(url)
                 setOrders(data)
