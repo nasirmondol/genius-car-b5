@@ -7,7 +7,7 @@ const ServiceDetails = () => {
     const [serviceDetails, setServiceDetails] = useState({});
 
     useEffect(() => {
-       const url = `http://localhost:5000/service/${serviceId}`;
+       const url = `https://infinite-depths-07817.herokuapp.com/service/${serviceId}`;
        fetch(url)
        .then(res => res.json())
        .then(data => setServiceDetails(data))

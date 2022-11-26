@@ -14,7 +14,7 @@ const Order = () => {
     useEffect(() => {
         const getOrders = async () => {
             const email = user.email;
-            const url = `http://localhost:5000/order?email=${email}`
+            const url = `https://infinite-depths-07817.herokuapp.com/order?email=${email}`
             try {
                 const { data } = await axiosPrivate.get(url)
                 setOrders(data)
@@ -31,8 +31,14 @@ const Order = () => {
 
     }, [user])
     return (
-        <div>
+        <div className='w-50 mx-auto m-3 p-3'>
             <h2>Your order: {orders.length}</h2>
+            {
+                orders.map(order => <div key={order._id}>
+                    <p>{order.email}</p>
+                    <h5>{order.address}</h5>
+                </div>)
+            }
         </div>
     );
 };

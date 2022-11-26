@@ -21,7 +21,7 @@ const CheckOut = () => {
             serviceId: serviceId,
         }
 
-        axios.post('http://localhost:5000/order', orders)
+        axios.post('https://infinite-depths-07817.herokuapp.com/order', orders)
         .then(response => {
             const {data} = response
             if(data.insertedId){
